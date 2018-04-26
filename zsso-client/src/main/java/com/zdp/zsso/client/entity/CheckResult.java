@@ -1,6 +1,7 @@
 package com.zdp.zsso.client.entity;
 
-import com.zdp.zsso.common.client.entity.Bstatus;
+
+import com.zdp.zsso.common.entity.Bstatus;
 
 /**
  * @author <a href="mailto:zhoudapeng8888@126.com">zhoudapeng</a>

@@ -1,9 +1,14 @@
 package com.zdp.zsso.client.filter;
 
+import com.zdp.zsso.client.component.UrlHelper;
+import com.zdp.zsso.client.component.UserStore;
+import com.zdp.zsso.client.component.ZssoConfigResolver;
+import com.zdp.zsso.client.component.impl.ApplicationContextUtil;
+import com.zdp.zsso.client.component.impl.ZssoConfigResolverImpl;
 import com.zdp.zsso.client.entity.User;
-import com.zdp.zsso.client.util.UserStore;
-import com.zdp.zsso.client.util.ZssoConfigUtil;
-import com.zdp.zsso.common.client.consts.ZssoConst;
+import com.zdp.zsso.client.entity.ZssoConfig;
+import com.zdp.zsso.client.component.impl.UserStoreImpl;
+import com.zdp.zsso.common.consts.ZssoConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +26,12 @@ import java.net.URLEncoder;
  */
 public class LoginCheckFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(LoginCheckFilter.class);
+    private UserStore userStore = ApplicationContextUtil.getBean(UserStore.class);
+    private UrlHelper urlHelper = ApplicationContextUtil.getBean(UrlHelper.class);
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        logger.info("init LoginCheckFilter");
     }
 
     @Override
@@ -37,7 +45,7 @@ public class LoginCheckFilter implements Filter {
         for (Cookie cookie:cookies) {
             if (ZssoConst.TOKEN.equals(cookie.getName())) {
                 String token = cookie.getName();
-                User user = UserStore.resolve(token);
+                User user = userStore.resolve(token);
                 if (user != null) {
                     request.setAttribute("LOGIN_USER",user);
                     chain.doFilter(request,response);
@@ -48,20 +56,12 @@ public class LoginCheckFilter implements Filter {
     }
 
     private void sendToLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String requestURL = request.getRequestURL().toString();
-        String loginUrl = ZssoConfigUtil.getConfig().getSsoLoginUrl();
-        String redirectUrl = loginUrl;
-        try {
-            redirectUrl = loginUrl + "?redirectUrl=" + URLEncoder.encode(requestURL,"utf-8");
-        } catch (Exception e) {
-            logger.warn("encode requestUrl失败,直接重定向到登录页，requestUrl=" + redirectUrl);
-        }
-        response.sendRedirect(redirectUrl);
-
+        String url = urlHelper.getServerLoginUrl(request.getRequestURL().toString());
+        response.sendRedirect(url);
     }
 
     @Override
     public void destroy() {
-
+        logger.info("destroy LoginCheckFilter");
     }
 }

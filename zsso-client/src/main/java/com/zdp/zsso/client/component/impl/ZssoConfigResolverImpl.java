@@ -1,25 +1,19 @@
-package com.zdp.zsso.client.entity;
+package com.zdp.zsso.client.component.impl;
 
-/**
- * @author <a href="mailto:zhoudapeng8888@126.com">zhoudapeng</a>
- * Date 2018/4/25
- * Time 下午5:06
- */
-public class ZssoConfig {
-    /**
-     * sso服务端登录页地址
-     */
+import com.zdp.zsso.client.component.ZssoConfigResolver;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ZssoConfigResolverImpl implements ZssoConfigResolver {
+    @Value("zsso.system.name")
     private String systemName;
-
-    /**
-     * 本系统cookie域
-     */
+    @Value("zsso.system.cookie.domain")
     private String systemCookieDomain;
-    /**
-     * zsso服务端域名
-     */
+    @Value("zsso.server.url.prefix")
     private String serverUrlPrefix;
 
+    @Override
     public String getSystemName() {
         return systemName;
     }
@@ -28,6 +22,7 @@ public class ZssoConfig {
         this.systemName = systemName;
     }
 
+    @Override
     public String getSystemCookieDomain() {
         return systemCookieDomain;
     }
@@ -36,6 +31,7 @@ public class ZssoConfig {
         this.systemCookieDomain = systemCookieDomain;
     }
 
+    @Override
     public String getServerUrlPrefix() {
         return serverUrlPrefix;
     }

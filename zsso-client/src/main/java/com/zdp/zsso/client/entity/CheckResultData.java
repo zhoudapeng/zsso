@@ -9,7 +9,6 @@ public class CheckResultData {
     private String token;
     private String uid;
     private Long expireTime;
-    private String domain;
 
     public String getToken() {
         return token;
@@ -33,13 +32,5 @@ public class CheckResultData {
 
     public void setExpireTime(Long expireTime) {
         this.expireTime = expireTime;
-    }
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
     }
 }
