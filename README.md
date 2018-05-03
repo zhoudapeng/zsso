@@ -43,8 +43,9 @@ UserStore:存取用户信息的组件，包括根据token解析用户信息，�
 127.0.0.1       www.wiki.com  
 127.0.0.1       www.bbs.com  
 ```
-5.2.启动zsso-server端  
-5.3.访问http://www.wiki.com:8081/profile/detail?id=123  
-5.4.在登录页登录，账号：zhoudapeng 密码：12345  
+5.2.启动zsso-server端,使用8080端口  
+5.3.启动zsso-client-demo，使用8081端口  
+5.4.访问http://www.wiki.com:8081/profile/detail?id=123  
+5.5.在zsso登录页登录，账号：zhoudapeng 密码：12345  
 
 
