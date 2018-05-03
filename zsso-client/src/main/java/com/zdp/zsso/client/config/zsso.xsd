@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://www.zsso.com/schema/zsso"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://www.zsso.com/schema/zsso"
+		elementFormDefault="qualified">
+
+	<xsd:element name="auto-driven">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+				auto driven the zsso client
+			]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

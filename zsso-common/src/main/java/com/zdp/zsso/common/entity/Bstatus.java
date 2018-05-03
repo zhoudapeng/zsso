@@ -6,8 +6,16 @@ package com.zdp.zsso.common.entity;
  * Time 下午7:26
  */
 public class Bstatus {
-    private int code;
-    private String desc;
+    private int code = 0;
+    private String desc = "成功";
+
+    public Bstatus() {
+    }
+
+    public Bstatus(int code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
 
     public int getCode() {
         return code;

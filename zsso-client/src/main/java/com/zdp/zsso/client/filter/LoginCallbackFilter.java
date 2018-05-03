@@ -5,8 +5,8 @@ import com.zdp.zsso.client.component.UserStore;
 import com.zdp.zsso.client.component.ZssoClient;
 import com.zdp.zsso.client.component.ZssoConfigResolver;
 import com.zdp.zsso.client.component.impl.ApplicationContextUtil;
-import com.zdp.zsso.client.entity.CheckResultData;
 import com.zdp.zsso.common.consts.ZssoConst;
+import com.zdp.zsso.common.entity.CheckResultData;
 import com.zdp.zsso.common.util.CookieBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import java.io.IOException;
  * Date 2018/4/25
  * Time 下午7:14
  */
-public class LoginCallbackFilter implements Filter {
+ class LoginCallbackFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(LoginCallbackFilter.class);
     private UrlHelper urlHelper = ApplicationContextUtil.getBean(UrlHelper.class);
     private UserStore userStore = ApplicationContextUtil.getBean(UserStore.class);
@@ -50,18 +50,20 @@ public class LoginCallbackFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String token = request.getParameter(ZssoConst.TOKEN);
+        String token = request.getParameter(ZssoConst.PARAM_NAME_TOKEN);
         CheckResultData checkResultData = zssoClient.check(token);
-        String redirectUrl = request.getParameter(ZssoConst.REDIRECT_URL);
+        String redirectUrl = request.getParameter(ZssoConst.PARAM_NAME_REDIRECT_URL);
+        logger.info("登录回调，token=" + token + ",redirectUrl=" + redirectUrl);
         if (checkResultData == null) {
             logger.info("token校验失败，重定向到sso登录页,token=" + token);
             response.sendRedirect(urlHelper.getServerLoginUrl(redirectUrl));
         }
         String userId = checkResultData.getUid();
-        userStore.store(token,userId);
-        Cookie cookie = new CookieBuilder().setName(ZssoConst.TOKEN).setValue(token).setDomain(zssoConfigResolver.getSystemCookieDomain()).setPath("/").setExpireSeconds((int)(checkResultData.getExpireTime() - System.currentTimeMillis())/1000).build();
+        userStore.bound(token,userId);
+        Cookie cookie = new CookieBuilder().setName(ZssoConst.COOKIE_NAME_TOKEN).setValue(token).setDomain(zssoConfigResolver.getSystemCookieDomain()).setPath("/").setExpireSeconds((int)(checkResultData.getExpireTime() - System.currentTimeMillis())/1000).build();
         response.addCookie(cookie);
         response.sendRedirect(redirectUrl);
+        return;
     }
 
     @Override

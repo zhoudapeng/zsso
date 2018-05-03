@@ -1,4 +1,4 @@
-package com.zdp.zsso.client.entity;
+package com.zdp.zsso.common.entity;
 
 /**
  * @author <a href="mailto:zhoudapeng8888@126.com">zhoudapeng</a>

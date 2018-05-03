@@ -12,6 +12,7 @@
         <module>zsso-client</module>
         <module>zsso-server</module>
         <module>zsso-common</module>
+        <module>zsso-client-demo</module>
     </modules>
     <dependencies>
         <dependency>

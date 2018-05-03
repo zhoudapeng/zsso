@@ -1,25 +1,33 @@
 package com.zdp.zsso.client.component.impl;
 
 import com.zdp.zsso.client.component.ZssoConfigResolver;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Component
+import java.util.Properties;
+
 public class ZssoConfigResolverImpl implements ZssoConfigResolver {
-    @Value("zsso.system.name")
-    private String systemName;
-    @Value("zsso.system.cookie.domain")
-    private String systemCookieDomain;
-    @Value("zsso.server.url.prefix")
-    private String serverUrlPrefix;
+    private static final Logger logger = LoggerFactory.getLogger(ZssoConfigResolverImpl.class);
+    private static String systemName;
+    private static String systemCookieDomain;
+    private static String serverUrlPrefix;
+
+    static {
+        try {
+            Properties properties = new Properties();
+            properties.load(ZssoConfigResolverImpl.class.getResourceAsStream("/zsso-client.properties"));
+            systemName = properties.getProperty("zsso.system.name");
+            systemCookieDomain = properties.getProperty("zsso.system.cookie.domain");
+            serverUrlPrefix = properties.getProperty("zsso.server.url.prefix");
+            logger.info("load zsso-client.properties,systemName=" + systemName + ",systemCookieDomain=" + systemCookieDomain + ",serverUrlPrefix=" + serverUrlPrefix);
+        }catch (Exception e) {
+            throw new RuntimeException("请正确配置zsso-client.properties配置文件",e);
+        }
+    }
 
     @Override
     public String getSystemName() {
         return systemName;
-    }
-
-    public void setSystemName(String systemName) {
-        this.systemName = systemName;
     }
 
     @Override
@@ -27,16 +35,9 @@ public class ZssoConfigResolverImpl implements ZssoConfigResolver {
         return systemCookieDomain;
     }
 
-    public void setSystemCookieDomain(String systemCookieDomain) {
-        this.systemCookieDomain = systemCookieDomain;
-    }
-
     @Override
     public String getServerUrlPrefix() {
         return serverUrlPrefix;
     }
 
-    public void setServerUrlPrefix(String serverUrlPrefix) {
-        this.serverUrlPrefix = serverUrlPrefix;
-    }
 }

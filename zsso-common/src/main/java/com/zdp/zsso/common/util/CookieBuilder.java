@@ -42,14 +42,14 @@ public class CookieBuilder {
     }
 
     public Cookie build() {
-        if (StringUtils.isEmpty(name) || StringUtils.isEmpty(value)) {
+        if (name == null || value == null) {
             throw new IllegalArgumentException("cookie的name和value不能为空");
         }
         Cookie cookie = new Cookie(name,value);
-        if (!StringUtils.isEmpty(path)) {
+        if (path != null) {
             cookie.setPath(path);
         }
-        if (!StringUtils.isEmpty(domain)) {
+        if (domain != null) {
             cookie.setDomain(domain);
         }
         cookie.setMaxAge(expireSeconds);

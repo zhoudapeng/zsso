@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-  <display-name>welcome to zsso-server</display-name>
+  <display-name>welcome to zsso-client-demo </display-name>
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
@@ -32,32 +32,13 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
   <filter>
-    <filter-name>loginCheckFilter</filter-name>
-    <filter-class>com.zdp.zsso.client.filter.LoginCheckFilter</filter-class>
+    <filter-name>zssoFilter</filter-name>
+    <filter-class>com.zdp.zsso.client.filter.ZssoFilter</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>loginCheckFilter</filter-name>
+    <filter-name>zssoFilter</filter-name>
     <url-pattern>/*</url-pattern>
-  </filter-mapping>
-
-  <filter>
-    <filter-name>logoutFilter</filter-name>
-    <filter-class>com.zdp.zsso.client.filter.LogoutFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>logoutFilter</filter-name>
-    <url-pattern>/zsso/logout</url-pattern>
-  </filter-mapping>
-
-  <filter>
-    <filter-name>callbackFilter</filter-name>
-    <filter-class>com.zdp.zsso.client.filter.LoginCallbackFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>callbackFilter</filter-name>
-    <url-pattern>/zsso/callback</url-pattern>
   </filter-mapping>
 
   <servlet>
@@ -81,7 +62,7 @@
 
   <context-param>
     <param-name>webAppRootKey</param-name>
-    <param-value>zsso-server</param-value>
+    <param-value>zsso-client-demo</param-value>
   </context-param>
 
 

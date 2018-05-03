@@ -11,12 +11,17 @@
     <mvc:annotation-driven/>
     <aop:aspectj-autoproxy/>
 
-    <context:component-scan base-package="com.zdp.zsso.server">
+    <context:component-scan base-package="com.zdp.zsso.server.controller">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
     <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
         <property name="supportedMediaTypes" value="text/plain;charset=UTF-8"/>
+    </bean>
+
+    <bean id="commonViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
     </bean>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
