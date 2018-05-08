@@ -1,11 +1,13 @@
 package com.zdp.zsso.server.service.impl;
 
+import com.zdp.zsso.server.entity.TokenDetail;
 import com.zdp.zsso.server.service.TokenService;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author <a href="mailto:zhoudapeng8888@126.com">zhoudapeng</a>
@@ -14,14 +16,30 @@ import java.util.List;
  */
 @Service
 public class TokenServiceImpl implements TokenService {
-    private MultiValueMap<String,String> cache = new LinkedMultiValueMap();
+    private Map<String,TokenDetail> cache = new HashMap();
+
     @Override
-    public void bound(String token, String systemName) {
-        cache.add(token,systemName);
+    public TokenDetail create() {
+        String token = UUID.randomUUID().toString();
+        TokenDetail detail = new TokenDetail();
+        detail.setToken(token);
+        detail.setExpireTimeMillis(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1));
+        return detail;
     }
 
     @Override
-    public List<String> listSystemNames(String token) {
+    public TokenDetail detail(String token) {
         return cache.get(token);
     }
+
+    @Override
+    public void remove(String token) {
+        cache.remove(token);
+    }
+
+    @Override
+    public void bound(String token, String systemName) {
+        detail(token).bound(systemName);
+    }
+
 }

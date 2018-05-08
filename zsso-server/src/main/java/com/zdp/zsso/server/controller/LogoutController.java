@@ -45,7 +45,8 @@ public class LogoutController {
             if (ZssoConst.COOKIE_NAME_TOKEN.equals(cookie.getName())) {
                 String token = cookie.getValue();
                 userService.unbound(token);
-                List<String> systemNames = tokenService.listSystemNames(token);
+                List<String> systemNames = tokenService.detail(token).getSystemNames();
+                tokenService.remove(token);
                 if (!CollectionUtils.isEmpty(systemNames)) {
                     Map<String,String> params = new HashMap<>();
                     params.put(ZssoConst.PARAM_NAME_TOKEN,token);

@@ -38,8 +38,8 @@ public class TokenController {
         CheckResultData checkResultData = new CheckResultData();
         checkResultData.setToken(token);
         checkResultData.setUid(userId);
-        checkResultData.setExpireTime(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(1));
-        tokenService.bound(systemName, token);
+        checkResultData.setExpireTime(tokenService.detail(token).getExpireTimeMillis());
+        tokenService.bound(token, systemName);
         CheckResult result = new CheckResult();
         result.setBstatus(new Bstatus());
         result.setData(checkResultData);

@@ -1,9 +1,13 @@
 package com.zdp.zsso.server.service;
 
-import java.util.List;
+import com.zdp.zsso.server.entity.TokenDetail;
 
 public interface TokenService {
-    void bound(String token,String systemName);
+    TokenDetail create();
 
-    List<String> listSystemNames(String token);
+    TokenDetail detail(String token);
+
+    void remove(String token);
+
+    void bound(String token,String systemName);
 }
